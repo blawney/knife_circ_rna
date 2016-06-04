@@ -132,8 +132,9 @@ then
     echo "./predictJunctions.sh ${ALIGN_PARDIR} ${DATASET_NAME} ${MODE} ${REPORTDIR_NAME}"
     ./predictJunctions.sh ${ALIGN_PARDIR} ${DATASET_NAME} ${MODE} ${REPORTDIR_NAME}
     
-    echo "python combineSwappedReadsGLM.py -a ${UNSWAPPED_DIR} -b ${SWAPPED_DIR} -q ${READ_STYLE}"
-    python combineSwappedReadsGLM.py -a ${UNSWAPPED_DIR} -b ${SWAPPED_DIR} -q ${READ_STYLE}
+    echo "NOT RUNNING python combineSwappedReadsGLM.py"
+    # echo "python combineSwappedReadsGLM.py -a ${UNSWAPPED_DIR} -b ${SWAPPED_DIR} -q ${READ_STYLE}"
+    # python combineSwappedReadsGLM.py -a ${UNSWAPPED_DIR} -b ${SWAPPED_DIR} -q ${READ_STYLE}
   fi
 
   # swap back all of the alignment files to their original directories
