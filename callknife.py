@@ -7,7 +7,17 @@ WORK_DIR = os.getcwd()
 #########################################################################
 
 # dataset_name CANNOT HAVE ANY SPACES IN IT
-dataset_name = "testData"
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--dataset", help="name of dataset-NO SPACES- will be used for naming files")
+args = parser.parse_args()
+if args.dataset:
+    dataset_name = args.dataset
+else:
+    dataset_name = "noname"
+
+# dataset_name = "4ep18cdfalso" 
+
 
 # run id to identify files in output, should change this each time
 run_id = "cc"
