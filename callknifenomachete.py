@@ -132,13 +132,14 @@ except:
 #############################################################################
 # tar all files in data set folder (but not Swapped files)  and its
 #  subdirectories and tar them
-# It WILL NOT output them with the directory structure, e.g. WITHOUT a top level folder
+# It WILL output them with the directory structure, e.g. WITH a top level folder
 #   with the name of the aata set, e.g. these:
-# I.e. it will NOT create a folder with a name
+# I.e. it will create a folder with a name
 #   of the dataset like testData
-# So this will unpack to several folders such as
-#    circReads  logs  orig  sampleStats
-# with no top level folder above them.
+# And below this will be subfolders such as
+#    circReads  orig  sampleStats
+# with a top level folder such as "testData" above them.
+# I did it differently before, thus all the explanation.
 #############################################################################
 
 datadirlocation = WORK_DIR + "/" + dataset_name  
@@ -146,15 +147,15 @@ datadirlocation = WORK_DIR + "/" + dataset_name
 # Change to WORK_DIR, then get all files in WORK_DIR/[dataset_name] folder, tar them.
 
 
-#os.chdir(WORK_DIR)
-#try:
-#    fullcall = "tar -cvzf " + dataset_name + "knifeoutputfiles" + run_id + ".tar.gz -C " + datadirlocation + " ." 
-#    with open(logfile, 'a') as ff:
-#        subprocess.check_call(fullcall, stderr=ff, stdout = ff, shell=True)
-#except:
-#    with open(logfile, 'a') as ff:
-#        ff.write("\nError in tarring the knife output files in the " + dataset_name + " directory\n")
-#
+os.chdir(WORK_DIR)
+try:
+   fullcall = "tar -cvzf " + dataset_name + "knifeoutputdir.tar.gz " + dataset_name 
+   with open(logfile, 'a') as ff:
+       subprocess.check_call(fullcall, stderr=ff, stdout = ff, shell=True)
+except:
+   with open(logfile, 'a') as ff:
+       ff.write("\nError in tarring the knife output files in the " + dataset_name + " directory\n")
+
 #############################################################################
 # Get two report files and tar and zip them
 #  Technically looks for all files with names ending in .report.txt
