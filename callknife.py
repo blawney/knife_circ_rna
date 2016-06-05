@@ -20,7 +20,7 @@ else:
 
 
 # run id to identify files in output, should change this each time
-run_id = "cc"
+run_id = "dirfixes"
 
 mode = "skipDenovo"
 read_id_style= "complete"
@@ -174,25 +174,35 @@ datadirlocation = WORK_DIR + "/" + dataset_name
 
 ###Run MACHETE
 #Nathaniel Watson
-#05-26-2016
+#05-26-2016 zzxx
 
-CIRCPIPE_DIR = os.path.join(WORK_DIR,report_directory_name,dataset_name)
-CIRCREF = os.path.join(WORK_DIR,report_directory_name,"index")
+CIRCPIPE_DIR = os.path.join(WORK_DIR,dataset_name)
+if not os.path.isdir(CIRCPIPE_DIR):
+    with open(logfile, 'a') as ff:
+        ff.write('No directory\n' + CIRCPIPE_DIR + '\nMaking one.')
+    os.mkdir(CIRCPIPE_DIR)
+CIRCREF = os.path.join(WORK_DIR,dataset_name,report_directory_name,"index")
+if not os.path.isdir(CIRCREF):
+    with open(logfile, 'a') as ff:
+        ff.write('No directory\n' + CIRCREF + '\nMaking one.')
+    os.mkdir(CIRCREF)
 MACH_OUTPUT_DIR = os.path.join(WORK_DIR,"mach")
 os.mkdir(MACH_OUTPUT_DIR)
 EXONS = os.path.join(WORK_DIR,"HG19exons")
-#REG_INDEL_INDICES = os.path.join(WORK_DIR,"IndelIndices")
-REG_INDEL_INDICES = os.path.join(WORK_DIR,"toyIndelIndices") #test indices for faster runs
+REG_INDEL_INDICES = os.path.join(WORK_DIR,"IndelIndices")
+#REG_INDEL_INDICES = os.path.join(WORK_DIR,"toyIndelIndices") #test indices for faster runs
 
 MACH_DIR = "/srv/software/machete"
 MACH_RUN_SCRIPT = os.path.join(MACH_DIR,"run.py")
 
 cmd = "python {MACH_RUN_SCRIPT} --circpipe-dir {CIRCPIPE_DIR} --output-dir {MACH_OUTPUT_DIR} --hg19Exons {EXONS} --reg-indel-indices {REG_INDEL_INDICES} --circref-dir {CIRCREF}".format(MACH_RUN_SCRIPT=MACH_RUN_SCRIPT,CIRCPIPE_DIR=CIRCPIPE_DIR,MACH_OUTPUT_DIR=MACH_OUTPUT_DIR,EXONS=EXONS,REG_INDEL_INDICES=REG_INDEL_INDICES,CIRCREF=CIRCREF)
 
-popen = subprocess.check_call(cmd,shell=True)
+with open(logfile, 'a') as ff:
+        ff.write('\n\n\nAbout to run run.py\n')
+        ff.write('\n\n\n')
 
-
-
+with open(logfile, 'a') as ff:
+        popen = subprocess.check_call(cmd,shell=True, stdout=ff)
 
 
 os.chdir(WORK_DIR)
