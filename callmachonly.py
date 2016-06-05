@@ -12,17 +12,23 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--dataset", help="name of dataset-NO SPACES- will be used for naming files")
 # Should fix this later: not so good, no time now; get rid of dataset argument
-# and search for dataset name, then add in run_id so as to differentiate runs
+# and search for dataset name
 parser.add_argument("--knifeoutputtarball", help="path to tarred and zipped file of knife output directory, the tarball should unpack with the name of the directory the same as the dataset name")
+parser.add_argument("--runid", help="name of dataset-NO SPACES- will be used for naming files")
 
 
 args = parser.parse_args()
 if args.dataset:
     dataset_name = args.dataset
 else:
-    dataset_name = "noname"
+    dataset_name = "nodatasetname"
 
 knife_output_tarball = args.knifeoutputtarball
+
+if args.runid:
+    run_id = args.runid
+else:
+    run_id = "norunid"
     
 
     
@@ -40,7 +46,7 @@ report_directory_name = "circReads"
 # logstdout_from_knife = "logofstdoutfromknife"
 
 
-logfile = WORK_DIR + "/logmachonly" + dataset_name + ".txt"
+logfile = WORK_DIR + "/logmachonly" + dataset_name + "run" + run_id +".txt"
 
 with open(logfile, 'w') as ff:
     ff.write(WORK_DIR)
@@ -193,7 +199,8 @@ with open(logfile, 'a') as ff:
         ff.write('\n\n\n')
 
 with open(logfile, 'a') as ff:
-        popen = subprocess.check_call(cmd,shell=True, stdout=ff, stderr=ff)
+        popen = subprocess.call(cmd,shell=True, stdout=ff, stderr=ff)
+#        popen = subprocess.check_call(cmd,shell=True, stdout=ff, stderr=ff)
 
 
 
