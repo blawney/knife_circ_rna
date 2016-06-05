@@ -234,7 +234,7 @@ os.chdir(WORK_DIR)
 mach_output_reports_dir = os.path.join(MACH_OUTPUT_DIR,"reports")
 if os.path.isdir(mach_output_reports_dir):
     try:
-        fullcall = "tar -cvzf " + dataset_name + "machreports.tar.gz -C " + MACH_OUTPUT_DIR + " reports"  
+        fullcall = "tar -cvzf " + dataset_name + "run" + run_id + "machreportsout.tar.gz -C " + MACH_OUTPUT_DIR + " reports"  
         with open(logfile, 'a') as ff:
             subprocess.check_call(fullcall, stderr=ff, stdout = ff, shell=True)
     except:
@@ -242,11 +242,20 @@ if os.path.isdir(mach_output_reports_dir):
             ff.write("\nError in tarring the machete output report files in the " + mach_output_reports_dir + " directory\n")
 else:
     with open(logfile, 'a') as ff:
-        ff.write("\nNo directory of machete output report called " + mach_output_reports_dir + ", which was expected.\n")
+        ff.write("\nNo directory of machete output reports called " + mach_output_reports_dir + ", but expected that there was one.\n")
     
 
-
-
-
-
-        
+# tar everything in mach_output_dir/err_and_out if the directory exists
+os.chdir(WORK_DIR)
+mach_err_dir = os.path.join(MACH_OUTPUT_DIR,"err_and_out")
+if os.path.isdir(mach_err_dir):
+    try:
+        fullcall = "tar -cvzf " + dataset_name + "run" + run_id + "macherrout.tar.gz -C " + MACH_OUTPUT_DIR + " err_and_out"  
+        with open(logfile, 'a') as ff:
+            subprocess.check_call(fullcall, stderr=ff, stdout = ff, shell=True)
+    except:
+        with open(logfile, 'a') as ff:
+            ff.write("\nError in tarring the machete err_and_out directory, namely the " + macherr_dir + " directory\n")
+else:
+    with open(logfile, 'a') as ff:
+        ff.write("\nNo directory of machete errors and output called " + mach_err_dir + ", but expected that there was one.\n")
