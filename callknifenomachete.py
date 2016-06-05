@@ -212,6 +212,25 @@ except:
 os.chdir(WORK_DIR)
 
 
+with open(logfile, 'a') as ff:
+    ff.write('\n\n\nWriting recursive list of entire working directory.\n\n')
+
+    
+with open(logfile, 'a') as ff:
+    subprocess.check_call(["ls", "-R"], stdout=ff)
+    ff.write('\n\n\n')
+    
+os.chdir(knifedir)
+    
+with open(logfile, 'a') as ff:
+    ff.write('\n\n\nWriting recursive list of knife directory.\n\n')
+
+    
+with open(logfile, 'a') as ff:
+    subprocess.check_call(["ls", "-R"], stdout=ff)
+    ff.write('\n\n\n')
+
+
 
 
 
