@@ -49,7 +49,7 @@ logstdout_from_knife = "logofstdoutfromknife"
 
 # get current working dir
 
-logfile = WORK_DIR + "/logknifenocomb" + run_id + dataset_name + ".txt"
+logfile = WORK_DIR + "/logkmachnocomb" + run_id + dataset_name + ".txt"
 
 with open(logfile, 'w') as ff:
     ff.write(WORK_DIR)
