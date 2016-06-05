@@ -129,7 +129,8 @@ REG_INDEL_INDICES = os.path.join(WORK_DIR,"IndelIndices")
 # Should still be in working dir now, but in case not
 os.chdir(WORK_DIR)
 
-globpattern = "infile*"
+prefix = "infile"
+globpattern = prefix + "*"
 matching_files = glob.glob(globpattern)
 if (len(matching_files)>= 1):
     for thisfile in matching_files:
