@@ -111,6 +111,36 @@ REG_INDEL_INDICES = os.path.join(WORK_DIR,"IndelIndices")
 #REG_INDEL_INDICES = os.path.join(WORK_DIR,"toyIndelIndices") #test indices for faster runs
 
 
+#########################################################################
+#
+# unpack HG19exons.tar.gz and IndelIndices.tar.gz
+#
+#########################################################################
+
+os.chdir(WORK_DIR)
+
+# Note that you have to choose a directory to start in, to unpack there
+def unpack_tarball_with_checking(tarball, thislogfile, thisworkdir):
+    os.chdir(thisworkdir)
+    if os.path.isfile(tarball):
+        with open(thislogfile, 'a') as ff:
+            ff.write("\nAbout to try to unpack the tarfile " + tarball + "\n")
+        try:
+            fullcall = "tar -xvzf " + tarball
+            with open(thislogfile, 'a') as ff:
+                subprocess.check_call(fullcall, stderr=ff, stdout = ff, shell=True)
+        except:
+            with open(thislogfile, 'a') as ff:
+                ff.write("\nError in unpacking the tarfile " + tarball + " \n")
+    else:
+        with open(thislogfile, 'a') as ff:
+            ff.write("\nERROR: No tarball found called " + tarball + " \n")
+
+unpack_tarball_with_checking(tarball = "HG19exons.tar.gz", thislogfile=logfile, thisworkdir=WORK_DIR)
+unpack_tarball_with_checking(tarball = "IndelIndices.tar.gz", thislogfile=logfile, thisworkdir=WORK_DIR)
+
+            
+            
 
 #########################################################################
 #
@@ -207,11 +237,20 @@ with open(logfile, 'a') as ff:
 
         
 
+os.chdir(WORK_DIR)
 
-os.chdir(MACH_OUTPUT_DIR)
 
 with open(logfile, 'a') as ff:
-    ff.write('\n\n\nListing machete ouput directory\n\n\n')
+    ff.write('\n\n\nListing working directory but not recursively.\n\n\n')
+    
+with open(logfile, 'a') as ff:
+    subprocess.check_call("ls -alh", stdout=ff, stderr=ff, shell=True)
+    
+os.chdir(MACH_OUTPUT_DIR)
+
+
+with open(logfile, 'a') as ff:
+    ff.write('\n\n\nListing machete ouput directory recursively.\n\n\n')
     
 with open(logfile, 'a') as ff:
     subprocess.check_call("ls -alRh", stdout=ff, stderr=ff, shell=True)
