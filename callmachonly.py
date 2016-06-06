@@ -7,6 +7,9 @@ WORK_DIR = os.getcwd()
 # PARAMETERS, I.E. INPUTS TO KNIFE CALL; need to add these here
 #########################################################################
 
+# should you use the toy indel indices; use them for testing; generally this should be False
+use_toy_indel = True
+
 # dataset_name CANNOT HAVE ANY SPACES IN IT
 import argparse
 parser = argparse.ArgumentParser()
@@ -107,9 +110,11 @@ if not os.path.isdir(CIRCREF):
 MACH_OUTPUT_DIR = os.path.join(WORK_DIR,"mach")
 os.mkdir(MACH_OUTPUT_DIR)
 EXONS = os.path.join(WORK_DIR,"HG19exons")
-REG_INDEL_INDICES = os.path.join(WORK_DIR,"IndelIndices")
-#REG_INDEL_INDICES = os.path.join(WORK_DIR,"toyIndelIndices") #test indices for faster runs
 
+if use_toy_indel:
+    REG_INDEL_INDICES = os.path.join(WORK_DIR,"toyIndelIndices") #test indices for faster runs
+else:
+    REG_INDEL_INDICES = os.path.join(WORK_DIR,"IndelIndices")
 
 #########################################################################
 #
@@ -137,8 +142,10 @@ def unpack_tarball_with_checking(tarball, thislogfile, thisworkdir):
             ff.write("\nERROR: No tarball found called " + tarball + " \n")
 
 unpack_tarball_with_checking(tarball = "HG19exons.tar.gz", thislogfile=logfile, thisworkdir=WORK_DIR)
-unpack_tarball_with_checking(tarball = "IndelIndices.tar.gz", thislogfile=logfile, thisworkdir=WORK_DIR)
-
+if use_toy_indel:
+    unpack_tarball_with_checking(tarball = "toyIndelIndices.tar.gz", thislogfile=logfile, thisworkdir=WORK_DIR)
+else:
+    unpack_tarball_with_checking(tarball = "IndelIndices.tar.gz", thislogfile=logfile, thisworkdir=WORK_DIR)
             
             
 
