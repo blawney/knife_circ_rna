@@ -49,7 +49,7 @@ report_directory_name = "circReads"
 # logstdout_from_knife = "logofstdoutfromknife"
 
 
-logfile = WORK_DIR + "/logmachonly" + dataset_name + "run" + run_id +".txt"
+logfile = WORK_DIR + "/logmachonly" + dataset_name + run_id +".txt"
 
 with open(logfile, 'w') as ff:
     ff.write(WORK_DIR)
@@ -280,7 +280,7 @@ os.chdir(WORK_DIR)
 mach_output_reports_dir = os.path.join(MACH_OUTPUT_DIR,"reports")
 if os.path.isdir(mach_output_reports_dir):
     try:
-        fullcall = "tar -cvzf " + dataset_name + "run" + run_id + "machreportsout.tar.gz -C " + MACH_OUTPUT_DIR + " reports"  
+        fullcall = "tar -cvzf " + dataset_name + run_id + "machreportsout.tar.gz -C " + MACH_OUTPUT_DIR + " reports"  
         with open(logfile, 'a') as ff:
             subprocess.check_call(fullcall, stderr=ff, stdout = ff, shell=True)
     except:
@@ -296,7 +296,7 @@ os.chdir(WORK_DIR)
 mach_err_dir = os.path.join(MACH_OUTPUT_DIR,"err_and_out")
 if os.path.isdir(mach_err_dir):
     try:
-        fullcall = "tar -cvzf " + dataset_name + "run" + run_id + "macherrout.tar.gz -C " + MACH_OUTPUT_DIR + " err_and_out"  
+        fullcall = "tar -cvzf " + dataset_name + run_id + "macherrout.tar.gz -C " + MACH_OUTPUT_DIR + " err_and_out"  
         with open(logfile, 'a') as ff:
             subprocess.check_call(fullcall, stderr=ff, stdout = ff, shell=True)
     except:
