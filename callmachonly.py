@@ -102,7 +102,8 @@ if not os.path.isdir(CIRCPIPE_DIR):
     with open(logfile, 'a') as ff:
         ff.write('Problem: no directory\n' + CIRCPIPE_DIR + '\nMaking one.')
     os.mkdir(CIRCPIPE_DIR)
-CIRCREF = os.path.join(WORK_DIR,dataset_name,report_directory_name,"index")
+CIRCREF = os.path.join(knifedir,"index")
+# CIRCREF = os.path.join(WORK_DIR,dataset_name,report_directory_name,"index")
 if not os.path.isdir(CIRCREF):
     with open(logfile, 'a') as ff:
         ff.write('No directory\n' + CIRCREF + '\nNot so surprising.\nMaking one.')
@@ -169,21 +170,56 @@ else:
 #   expects them to be, then change their names.
 
 
-# Should still be in working dir now, but in case not
-os.chdir(WORK_DIR)
 
-prefix = "infile"
-globpattern = prefix + "*"
-matching_files = glob.glob(globpattern)
-if (len(matching_files)>= 1):
-    for thisfile in matching_files:
-        fullpatholdfile = WORK_DIR + "/" + thisfile
-        fullpathnewfile = CIRCREF + "/" + re.sub(pattern=prefix, repl="", string= thisfile)
-        with open(logfile, 'a') as ff:
-            ff.write('About to do mv '+ fullpatholdfile + ' ' + fullpathnewfile + '\n')
-        with open(logfile, 'a') as ff:
-            subprocess.check_call(["mv", fullpatholdfile, fullpathnewfile], stderr=ff, stdout=ff)
 
+knifedir = "/srv/software/knife/circularRNApipeline_Standalone"
+
+    
+    
+targetdir_list = [knifedir + "/index", knifedir + "/index", knifedir + "/denovo_scripts", knifedir + "/denovo_scripts/index"]
+    
+# check that there is a directory called circularRNApipeline_Standalone and all the subdirectories; there should be!
+
+if not os.path.isdir(knifedir):
+    os.makedirs(knifedir)
+    
+thisdir = targetdir_list[0]
+if not os.path.exists(thisdir):
+    os.makedirs(thisdir)
+
+thisdir = targetdir_list[2]
+if not os.path.exists(thisdir):
+    os.makedirs(thisdir)
+
+thisdir = targetdir_list[3]
+if not os.path.exists(thisdir):
+    os.makedirs(thisdir)
+
+# Input file names are in an unusual format so they are easy to select when doing a run on
+#   seven bridges. They should start in the home directory, as copies, because
+#   they are entered as stage inputs.
+#   Move them to the directories where KNIFE
+#   expects them to be, then change their names.
+
+# make function to do this for each of the four types of files
+#  prefix is one of "infilebt1", "infilebt2", "infilefastas", or "infilegtf"
+def move_and_rename(prefix, targetdir):
+    globpattern = prefix + "*"
+    matching_files = glob.glob(globpattern)
+    if (len(matching_files)>= 1):
+        for thisfile in matching_files:
+            fullpatholdfile = WORK_DIR + "/" + thisfile
+            fullpathnewfile = targetdir + "/" + re.sub(pattern=prefix, repl="", string= thisfile)
+            subprocess.check_call(["mv", fullpatholdfile, fullpathnewfile])
+            with open(logfile, 'a') as ff:
+                ff.write('mv '+ fullpatholdfile + ' ' + fullpathnewfile + '\n')
+
+#        os.rename(fullpatholdfile, fullpathnewfile)
+
+prefix_list = ["infilebt2", "infilefastas", "infilegtf", "infilebt1"]
+
+for ii in range(4):
+    move_and_rename(prefix=prefix_list[ii], targetdir= targetdir_list[ii])
 
     
 # cd into the knife directory
@@ -197,7 +233,28 @@ with open(logfile, 'a') as ff:
     ff.write('\n\n\n')
     subprocess.check_call(["ls", "-R"], stdout=ff)
     ff.write('\n\n\n')
+
+
+# Did the below in past, but now just change name of CIRCREF in run.py
     
+# # Should still be in working dir now, but in case not
+# os.chdir(WORK_DIR)
+
+# # Note that files have prefixes like infilebt1 and infilebt2 b/c the extra
+# #  bt1 and bt2 told the knife program where to send them
+
+# prefix = "infile"
+# globpattern = prefix + "*"
+# matching_files = glob.glob(globpattern)
+# if (len(matching_files)>= 1):
+#     for thisfile in matching_files:
+#         fullpatholdfile = WORK_DIR + "/" + thisfile
+#         fullpathnewfile = CIRCREF + "/" + re.sub(pattern=prefix, repl="", string= thisfile)
+#         with open(logfile, 'a') as ff:
+#             ff.write('About to do mv '+ fullpatholdfile + ' ' + fullpathnewfile + '\n')
+#         with open(logfile, 'a') as ff:
+#             subprocess.check_call(["mv", fullpatholdfile, fullpathnewfile], stderr=ff, stdout=ff)
+        
 
 # # run test of knife
 # # sh completeRun.sh READ_DIRECTORY complete OUTPUT_DIRECTORY testData 8 phred64 circReads 40 2>&1 | tee out.log
@@ -227,7 +284,8 @@ with open(logfile, 'a') as ff:
 
 
 MACH_DIR = "/srv/software/machete"
-MACH_RUN_SCRIPT = os.path.join(MACH_DIR,"run.py")
+MACH_RUN_SCRIPT = os.path.join(WORK_DIR,"run.py")
+# MACH_RUN_SCRIPT = os.path.join(MACH_DIR,"run.py")
 
 cmd = "python {MACH_RUN_SCRIPT} --circpipe-dir {CIRCPIPE_DIR} --output-dir {MACH_OUTPUT_DIR} --hg19Exons {EXONS} --reg-indel-indices {REG_INDEL_INDICES} --circref-dir {CIRCREF}".format(MACH_RUN_SCRIPT=MACH_RUN_SCRIPT,CIRCPIPE_DIR=CIRCPIPE_DIR,MACH_OUTPUT_DIR=MACH_OUTPUT_DIR,EXONS=EXONS,REG_INDEL_INDICES=REG_INDEL_INDICES,CIRCREF=CIRCREF)
 
@@ -274,8 +332,8 @@ else:
     with open(logfile, 'a') as ff:
         ff.write('\n\n\nNo MasterError.txt file found.\n\n\n')
 
-# tar everything in mach_output_dir/reports? Don't know if it exists yet, so
-#   tar if it exists
+# tar everything in mach_output_dir/reports 
+#   Tar if it exists
 os.chdir(WORK_DIR)
 mach_output_reports_dir = os.path.join(MACH_OUTPUT_DIR,"reports")
 if os.path.isdir(mach_output_reports_dir):
