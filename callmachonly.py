@@ -379,4 +379,23 @@ else:
         ff.write("\nNo directory of machete errors and output called " + mach_err_dir + ", but expected that there was one.\n")
 
 
-        
+# tar everything in mach_output_dir/x if the directory exists
+
+def tar_subdirectory_of_mach_output_dir(thisdir, text_for_naming, MACH_OUTPUT_DIR, WORK_DIR, dataset_name, run_id, logfile):
+    os.chdir(WORK_DIR)
+    thisfulldir = os.path.join(MACH_OUTPUT_DIR,thisdir)
+    if os.path.isdir(thisfulldir):
+        try:
+            fullcall = "tar -cvzf " + dataset_name + run_id + "mach" + text_for_naming + "out.tar.gz -C " + MACH_OUTPUT_DIR + " " + thisdir  
+            with open(logfile, 'a') as ff:
+                subprocess.check_call(fullcall, stderr=ff, stdout = ff, shell=True)
+        except:
+            with open(logfile, 'a') as ff:
+                ff.write("\nError in tarring the machete " + thisdir + " directory, namely the " + thisfulldir + " directory\n")
+    else:
+        with open(logfile, 'a') as ff:
+            ff.write("\nNo directory within machete output directory called " + thisfulldir + ", but expected that there was one.\n")
+
+tar_subdirectory_of_mach_output_dir(thisdir = "GLM_classInput", text_for_naming = "glmclassinput", MACH_OUTPUT_DIR=MACH_OUTPUT_DIR, WORK_DIR=WORK_DIR, dataset_name=dataset_name, run_id=run_id, logfile=logfile)
+
+tar_subdirectory_of_mach_output_dir(thisdir = "reports", text_for_naming = "reports", MACH_OUTPUT_DIR=MACH_OUTPUT_DIR, WORK_DIR=WORK_DIR, dataset_name=dataset_name, run_id=run_id, logfile=logfile)
