@@ -10,17 +10,28 @@ WORK_DIR = os.getcwd()
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--dataset", help="name of dataset-NO SPACES- will be used for naming files")
+parser.add_argument("--readidstyle", help="read_id_style MUST BE either complete or appended")
+parser.add_argument("--runid", help="run_id to use for naming runs with the same data set; defaults to aa")
 args = parser.parse_args()
 if args.dataset:
     dataset_name = args.dataset
 else:
     dataset_name = "noname"
 
-# run id to identify files in output, should change this each time
-run_id = "cc"
-
+if args.readidstyle:
+    read_id_style = args.readidstyle
+    if (read_id_style not in ['complete','appended']):
+        raise ValueError("Error: readidstyle must be one of complete or appended")
+else:
+    raise ValueError("Error: readidstyle must be one of complete or appended")
+    
+if args.runid:
+    run_id = args.runid
+else:
+    run_id ="aa"
+    
 mode = "skipDenovo"
-read_id_style= "appended"
+# read_id_style= "appended"
 junction_overlap =  8
 report_directory_name = "circReads"
 ntrim= 40
