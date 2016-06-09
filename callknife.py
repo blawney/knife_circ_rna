@@ -23,7 +23,7 @@ else:
 run_id = "dirfixes"
 
 mode = "skipDenovo"
-read_id_style= "complete"
+read_id_style= "appended"
 junction_overlap =  8
 report_directory_name = "circReads"
 ntrim= 40

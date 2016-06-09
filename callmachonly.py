@@ -41,7 +41,7 @@ report_directory_name = "circReads"
 
 
 # mode = "skipDenovo"
-# read_id_style= "complete"
+# read_id_style= "appended"
 # junction_overlap =  8
 # ntrim= 40
 
