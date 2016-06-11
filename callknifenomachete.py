@@ -224,6 +224,95 @@ except:
 os.chdir(WORK_DIR)
 
 
+
+
+#############################################################################
+# Get all files in either circReads/glmReport or circReads/reports or sampleStats/
+# zzxx
+# tar should unpack files as relative to the output directory
+#  so, e.g. at the top level, it will create directories like circReads/glmReports, ...
+#############################################################################
+
+wdir = WORK_DIR
+datadir = wdir + "/" + dataset_name
+os.chdir(datadir)
+
+with open(logfile, 'a') as ff:
+    ff.write("\nRecursively listing files in data dir before tarring files in\n")
+    ff.write("circReads/glmReport or circReads/reports or sampleStats \n")
+    ff.write("datadir is\n" + datadir)
+    ff.write('\n\n\n')
+
+with open(logfile, 'a') as ff:
+    subprocess.check_call(["ls", "-R"], stdout=ff)
+
+os.chdir(wdir)
+    
+        
+dirs_to_get_files = ['circReads/glmReports','circReads/reports','sampleStats']
+full_path_dirs_to_get_files = [datadir + '/' + x for x in dirs_to_get_files]
+
+
+tempfilename = datadir + "/tempfilelist"
+
+
+# get names of all files in these directories with paths relative to datadir:
+try:
+    txtfilelist =[]
+    for thisdir in dirs_to_get_files:
+        os.chdir(datadir)
+        if os.path.isdir(thisdir):
+            txtfilelist.extend([os.path.join(thisdir,x) for x in [f for f in os.listdir(thisdir) if os.path.isfile(os.path.join(thisdir,f))] ])
+        else:
+            os.chdir(datadir)
+            with open(logfile, 'a') as ff:
+                ff.write("\nNo directory\n" + thisdir + "\n")
+                ff.write('\n\n\n')
+                subprocess.check_call(["ls", "-R"], stdout=ff)
+                ff.write('\n\n\n')
+except:
+    os.chdir(datadir)
+    with open(logfile, 'a') as ff:
+        ff.write("\nError when getting the names of the txt files in circReads/glmReport or circReads/reports or sampleStats \n")
+
+# append list of files to log file
+with open(logfile, 'a') as ff:
+    ff.write('\nList of files that will be tarred:\n')
+    ff.write('\n'.join([str(x) for x in txtfilelist]))
+
+
+os.chdir(wdir)
+
+tarfile = dataset_name + "knifereportfiles.tar"
+
+for ii, thisfile in enumerate(txtfilelist):
+    try:
+        if ii==0:
+            fullcall = "tar -cvf " +  tarfile + " -C " + datadir + " " + thisfile 
+        else:
+            fullcall = "tar -rvf " +  tarfile + " -C " + datadir + " " + thisfile 
+        with open(logfile, 'a') as ff:
+            ff.write('\nCall to use for tar:\n')
+            ff.write(fullcall)
+        subprocess.check_call(fullcall, shell=True)
+    except:
+        with open(logfile, 'a') as ff:
+            ff.write("\nError when tarring the reports output files for call:\n")
+            ff.write(fullcall)
+
+os.chdir(wdir)
+
+subprocess.check_call("gzip " + tarfile, shell=True)
+            
+        
+os.chdir(wdir)
+
+#############################################################################
+# List some files
+#############################################################################
+
+
+
 with open(logfile, 'a') as ff:
     ff.write('\n\n\nWriting recursive list of entire working directory.\n\n')
 
