@@ -90,8 +90,9 @@ if [[ ${MODE} != *skipR2* ]]
 then
   cd analysis
   # set up directories and swap alignment file names to run with R2 as R1
-  echo "python analysis/createSwappedDirectories.py -a ${ALIGN_PARDIR} -d ${DATASET_NAME} -m swap -v"
-  python createSwappedDirectories.py -a ${ALIGN_PARDIR} -d ${DATASET_NAME} -m swap -v 
+  echo "NOT RUNNING createSwappedDirectories.py"
+  # echo "python analysis/createSwappedDirectories.py -a ${ALIGN_PARDIR} -d ${DATASET_NAME} -m swap -v"
+  # python createSwappedDirectories.py -a ${ALIGN_PARDIR} -d ${DATASET_NAME} -m swap -v 
   
   UNSWAPPED_DIR=${ALIGN_PARDIR}/${DATASET_NAME}/${REPORTDIR_NAME}
   UNSWAPPED_DATASET_NAME=${DATASET_NAME}
@@ -119,13 +120,15 @@ then
   if [ ${NUM_DENOVO_FILES} -gt 0 ]
   then
     # run unaligned mode on the swapped files. Using string "unalign" instead of "unaligned" allows for selection of correct TASK_ID_FILE but prevents attempt to re-run denovo alignment
-    echo "./findCircularRNA.sh ${READ_DIR} ${READ_STYLE} ${ALIGN_PARDIR} ${DATASET_NAME} ${OVERLAP} ${MODE}_R2analysis_unalign ${REPORTDIR_NAME} ${NTRIM} ${DENOVOCIRC} ${JUNCTION_DIR_SUFFIX} ${RD1_THRESH} ${RD2_THRESH} ${JUNCTION_MIDPOINT}"
-    ./findCircularRNA.sh ${READ_DIR} ${READ_STYLE} ${ALIGN_PARDIR} ${DATASET_NAME} ${OVERLAP} ${MODE}_R2analysis_unalign ${REPORTDIR_NAME} ${NTRIM} ${DENOVOCIRC} ${JUNCTION_DIR_SUFFIX} ${RD1_THRESH} ${RD2_THRESH} ${JUNCTION_MIDPOINT}
+    echo "NOT RUNNING findCircularRNA.sh on the swapped files"   
+    # echo "./findCircularRNA.sh ${READ_DIR} ${READ_STYLE} ${ALIGN_PARDIR} ${DATASET_NAME} ${OVERLAP} ${MODE}_R2analysis_unalign ${REPORTDIR_NAME} ${NTRIM} ${DENOVOCIRC} ${JUNCTION_DIR_SUFFIX} ${RD1_THRESH} ${RD2_THRESH} ${JUNCTION_MIDPOINT}"
+    # ./findCircularRNA.sh ${READ_DIR} ${READ_STYLE} ${ALIGN_PARDIR} ${DATASET_NAME} ${OVERLAP} ${MODE}_R2analysis_unalign ${REPORTDIR_NAME} ${NTRIM} ${DENOVOCIRC} ${JUNCTION_DIR_SUFFIX} ${RD1_THRESH} ${RD2_THRESH} ${JUNCTION_MIDPOINT}
   fi
   
-  cd analysis
-  echo "python combineSwappedReadsNaive.py -a ${UNSWAPPED_DIR} -b ${SWAPPED_DIR} -q ${READ_STYLE}"
-  python combineSwappedReadsNaive.py -a ${UNSWAPPED_DIR} -b ${SWAPPED_DIR} -q ${READ_STYLE}
+  echo "NOT doing cd analysis and NOT RUNNING combineSwappedReadsNaive.py"
+  # cd analysis
+  # echo "python combineSwappedReadsNaive.py -a ${UNSWAPPED_DIR} -b ${SWAPPED_DIR} -q ${READ_STYLE}"
+  # python combineSwappedReadsNaive.py -a ${UNSWAPPED_DIR} -b ${SWAPPED_DIR} -q ${READ_STYLE}
 
   if [[ ${MODE} != *skipGLM* ]]
   then
@@ -138,8 +141,9 @@ then
   fi
 
   # swap back all of the alignment files to their original directories
-  echo "python createSwappedDirectories.py -a ${ALIGN_PARDIR} -d ${UNSWAPPED_DATASET_NAME} -m restore -v"
-  python createSwappedDirectories.py -a ${ALIGN_PARDIR} -d ${UNSWAPPED_DATASET_NAME} -m restore -v
+  echo "NOT RUNNING createSwappedDirectories.py"
+  # echo "python createSwappedDirectories.py -a ${ALIGN_PARDIR} -d ${UNSWAPPED_DATASET_NAME} -m restore -v"
+  # python createSwappedDirectories.py -a ${ALIGN_PARDIR} -d ${UNSWAPPED_DATASET_NAME} -m restore -v
 
 fi
 
