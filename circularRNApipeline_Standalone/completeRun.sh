@@ -125,8 +125,8 @@ then
     # ./findCircularRNA.sh ${READ_DIR} ${READ_STYLE} ${ALIGN_PARDIR} ${DATASET_NAME} ${OVERLAP} ${MODE}_R2analysis_unalign ${REPORTDIR_NAME} ${NTRIM} ${DENOVOCIRC} ${JUNCTION_DIR_SUFFIX} ${RD1_THRESH} ${RD2_THRESH} ${JUNCTION_MIDPOINT}
   fi
   
-  echo "NOT doing cd analysis and NOT RUNNING combineSwappedReadsNaive.py"
-  # cd analysis
+  echo "NOT RUNNING combineSwappedReadsNaive.py"
+  cd analysis
   # echo "python combineSwappedReadsNaive.py -a ${UNSWAPPED_DIR} -b ${SWAPPED_DIR} -q ${READ_STYLE}"
   # python combineSwappedReadsNaive.py -a ${UNSWAPPED_DIR} -b ${SWAPPED_DIR} -q ${READ_STYLE}
 
