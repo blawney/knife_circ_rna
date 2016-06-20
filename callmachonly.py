@@ -363,12 +363,12 @@ else:
     with open(logfile, 'a') as ff:
         ff.write("\nNo directory of machete errors and output called " + mach_err_dir + ", but expected that there was one.\n")
 
-# tar everything in mach_output_dir/BadFJ_ver2 if the directory exists
+# tar everything in mach_output_dir/BadFJ_ver2 if the directory exists- changing name on jun 20
 os.chdir(WORK_DIR)
 mach_err_dir = os.path.join(MACH_OUTPUT_DIR,"BadFJ_ver2")
 if os.path.isdir(mach_err_dir):
     try:
-        fullcall = "tar -cvzf " + dataset_name + run_id + "machbadfjout.tar.gz -C " + MACH_OUTPUT_DIR + " BadFJ_ver2"  
+        fullcall = "tar -cvzf " + dataset_name + run_id + "machbadfver2jout.tar.gz -C " + MACH_OUTPUT_DIR + " BadFJ_ver2"  
         with open(logfile, 'a') as ff:
             subprocess.check_call(fullcall, stderr=ff, stdout = ff, shell=True)
     except:
@@ -399,3 +399,5 @@ def tar_subdirectory_of_mach_output_dir(thisdir, text_for_naming, MACH_OUTPUT_DI
 tar_subdirectory_of_mach_output_dir(thisdir = "GLM_classInput", text_for_naming = "glmclassinput", MACH_OUTPUT_DIR=MACH_OUTPUT_DIR, WORK_DIR=WORK_DIR, dataset_name=dataset_name, run_id=run_id, logfile=logfile)
 
 tar_subdirectory_of_mach_output_dir(thisdir = "reports", text_for_naming = "reports", MACH_OUTPUT_DIR=MACH_OUTPUT_DIR, WORK_DIR=WORK_DIR, dataset_name=dataset_name, run_id=run_id, logfile=logfile)
+
+tar_subdirectory_of_mach_output_dir(thisdir = "BadFJ", text_for_naming = "badfj", MACH_OUTPUT_DIR=MACH_OUTPUT_DIR, WORK_DIR=WORK_DIR, dataset_name=dataset_name, run_id=run_id, logfile=logfile)
