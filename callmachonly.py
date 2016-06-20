@@ -368,7 +368,7 @@ os.chdir(WORK_DIR)
 mach_err_dir = os.path.join(MACH_OUTPUT_DIR,"BadFJ_ver2")
 if os.path.isdir(mach_err_dir):
     try:
-        fullcall = "tar -cvzf " + dataset_name + run_id + "machbadfver2jout.tar.gz -C " + MACH_OUTPUT_DIR + " BadFJ_ver2"  
+        fullcall = "tar -cvzf " + dataset_name + run_id + "machbadfjver2out.tar.gz -C " + MACH_OUTPUT_DIR + " BadFJ_ver2"  
         with open(logfile, 'a') as ff:
             subprocess.check_call(fullcall, stderr=ff, stdout = ff, shell=True)
     except:
