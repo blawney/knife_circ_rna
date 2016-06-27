@@ -425,8 +425,8 @@ with open(logfile, 'a') as ff:
     subprocess.check_call(fullcall, stdout=ff, stderr=ff, shell=True)
 
 mastererroroutfile = WORK_DIR + "/MasterError" + dataset_name + run_id +".txt"
-stemorigfile = os.path.join(MACH_OUTPUT_DIR, "MasterError.txt")
-fullcall = "cp " + stemorigfile + " " + stemoutfile 
+mastererrororigfile = os.path.join(MACH_OUTPUT_DIR, "MasterError.txt")
+fullcall = "cp " + mastererrororigfile + " " + mastererroroutfile
 with open(logfile, 'a') as ff:
     subprocess.check_call(fullcall, stdout=ff, stderr=ff, shell=True)
 
