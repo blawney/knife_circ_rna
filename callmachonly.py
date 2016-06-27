@@ -409,7 +409,7 @@ os.chdir(WORK_DIR)
 
 glmdirlocation = os.path.join(WORK_DIR, dataset_name, "circReads")
 
-knifeglmreportstarfile = dataset_name + "knifeglmreportfilesout.tar.gz"
+knifeglmreportstarfile = dataset_name + run_id + "knifeglmreportfilesout.tar.gz"
 
 fullcall = "tar -cvzf " + knifeglmreportstarfile + " -C " + glmdirlocation + " glmReports"
 
