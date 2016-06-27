@@ -416,3 +416,18 @@ fullcall = "tar -cvzf " + knifeglmreportstarfile + " -C " + glmdirlocation + " g
 with open(logfile, 'a') as ff:
     subprocess.check_call(fullcall, stdout=ff, stderr=ff, shell=True)
 
+# Now copy StemList.txt and MasterError.txt to
+#  files with better names so that they have unique names for each run
+stemoutfile = WORK_DIR + "/StemList" + dataset_name + run_id +".txt"
+stemorigfile = os.path.join(MACH_OUTPUT_DIR, "StemList.txt")
+fullcall = "cp " + stemorigfile + " " + stemoutfile 
+with open(logfile, 'a') as ff:
+    subprocess.check_call(fullcall, stdout=ff, stderr=ff, shell=True)
+
+mastererroroutfile = WORK_DIR + "/MasterError" + dataset_name + run_id +".txt"
+stemorigfile = os.path.join(MACH_OUTPUT_DIR, "MasterError.txt")
+fullcall = "cp " + stemorigfile + " " + stemoutfile 
+with open(logfile, 'a') as ff:
+    subprocess.check_call(fullcall, stdout=ff, stderr=ff, shell=True)
+
+
