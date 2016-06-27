@@ -401,3 +401,18 @@ tar_subdirectory_of_mach_output_dir(thisdir = "GLM_classInput", text_for_naming 
 tar_subdirectory_of_mach_output_dir(thisdir = "reports", text_for_naming = "reports", MACH_OUTPUT_DIR=MACH_OUTPUT_DIR, WORK_DIR=WORK_DIR, dataset_name=dataset_name, run_id=run_id, logfile=logfile)
 
 tar_subdirectory_of_mach_output_dir(thisdir = "BadFJ", text_for_naming = "badfj", MACH_OUTPUT_DIR=MACH_OUTPUT_DIR, WORK_DIR=WORK_DIR, dataset_name=dataset_name, run_id=run_id, logfile=logfile)
+
+# Now also get tar file of glm reports from knife for convenient reading together with
+#  machete output.
+
+os.chdir(WORK_DIR)
+
+glmdirlocation = os.path.join(WORK_DIR, dataset_name, "circReads")
+
+knifeglmreportstarfile = dataset_name + "knifeglmreportfilesout.tar.gz"
+
+fullcall = "tar -cvzf " + knifeglmreportstarfile + " -C " + glmdirlocation + " glmReports"
+
+with open(logfile, 'a') as ff:
+    subprocess.check_call(fullcall, stdout=ff, stderr=ff, shell=True)
+
