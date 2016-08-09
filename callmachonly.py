@@ -293,10 +293,23 @@ with open(logfile, 'a') as ff:
         ff.write('\n\n\n')
 
 with open(logfile, 'a') as ff:
-        popen = subprocess.call(cmd,shell=True, stdout=ff, stderr=ff)
+        retcode = subprocess.call(cmd,shell=True, stdout=ff, stderr=ff)
 #        popen = subprocess.check_call(cmd,shell=True, stdout=ff, stderr=ff)
 
+## Write either YES.error.in.subprocess.txt with 1 or
+##     NO.error.in.subprocess.txt with 0
+## This allows you to see quickly in the results on Seven Bridges if there is 
+##     an error in the subprocess call in run.py
+## File ends in error.in.subprocess.txt; the name changes depending on the value.
 
+errorfiles = ['YES.error.in.subprocess.txt','NO.error.in.subprocess.txt']
+
+if retcode:
+    with open(errorfiles[0], 'w') as ff:
+        ff.write('1')
+else:
+    with open(errorfiles[1], 'w') as ff:
+        ff.write('0')
 
 
         

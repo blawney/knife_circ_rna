@@ -284,12 +284,12 @@ with open(logfile, 'a') as ff:
 
 
 MACH_DIR = "/srv/software/machete"
-MACH_RUN_SCRIPT = os.path.join(MACH_DIR,"spork_run.py")
+MACH_RUN_SCRIPT = os.path.join(MACH_DIR,"spachete_run.py")
 
 cmd = "python {MACH_RUN_SCRIPT} --circpipe-dir {CIRCPIPE_DIR} --output-dir {MACH_OUTPUT_DIR} --hg19Exons {EXONS} --reg-indel-indices {REG_INDEL_INDICES} --circref-dir {CIRCREF}".format(MACH_RUN_SCRIPT=MACH_RUN_SCRIPT,CIRCPIPE_DIR=CIRCPIPE_DIR,MACH_OUTPUT_DIR=MACH_OUTPUT_DIR,EXONS=EXONS,REG_INDEL_INDICES=REG_INDEL_INDICES,CIRCREF=CIRCREF)
 
 with open(logfile, 'a') as ff:
-        ff.write('\n\n\nAbout to run spork_run.py\n')
+        ff.write('\n\n\nAbout to run spachete_run.py\n')
         ff.write('\n\n\n')
 
 with open(logfile, 'a') as ff:
@@ -424,10 +424,10 @@ fullcall = "cp " + stemorigfile + " " + stemoutfile
 with open(logfile, 'a') as ff:
     subprocess.check_call(fullcall, stdout=ff, stderr=ff, shell=True)
 
-mastererroroutfile = WORK_DIR + "/MasterError" + dataset_name + run_id +".txt"
-mastererrororigfile = os.path.join(MACH_OUTPUT_DIR, "MasterError.txt")
-fullcall = "cp " + mastererrororigfile + " " + mastererroroutfile
-with open(logfile, 'a') as ff:
-    subprocess.check_call(fullcall, stdout=ff, stderr=ff, shell=True)
+#mastererroroutfile = WORK_DIR + "/MasterError" + dataset_name + run_id +".txt"
+#mastererrororigfile = os.path.join(MACH_OUTPUT_DIR, "MasterError.txt")
+#fullcall = "cp " + mastererrororigfile + " " + mastererroroutfile
+#with open(logfile, 'a') as ff:
+#    subprocess.check_call(fullcall, stdout=ff, stderr=ff, shell=True)
 
 
