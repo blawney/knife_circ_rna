@@ -177,6 +177,11 @@ True circular and linear junctions are a subset of the reported junctions. All i
 # Verifying Installation
 Pre-trimmed fastq files for 1 human sample are provided with the release of v1.1. See the README under testData for instructions to run KNIFE on this sample. Expected results are provided in testData/testOutput.
 
+# One Troubleshooting Suggestion
+If there is nothing in the circReads/glmReports directory after running
+KNIFE, it could be that the setting "complete" or "appended" should be
+changed to the other option.
+
 # Contact
 This code was developed and is maintained by Linda Szabo, lszabo at stanford.edu. Please understand that I am continuing to develop new algorithms, but I will do my best to respond in a timely manner. 
 
